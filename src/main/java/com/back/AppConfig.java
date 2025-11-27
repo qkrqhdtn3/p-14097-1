@@ -12,15 +12,15 @@ public class AppConfig {
         return 55;
     }
 
-    @Bean
-    @Order(2)
-    public ApplicationRunner applicationRunner(){
-        return new MyApplicationRunner();
-    }
-
-    @Bean
-    @Order(1)
-    public ApplicationRunner applicationRunner2(){
-        return new MyApplicationRunner2();
-    }
+//    @Bean
+//    @Order(2)
+//    public ApplicationRunner applicationRunner(){
+//        return new MyApplicationRunner();
+//    }
+//
+//    @Bean
+//    @Order(1)
+//    public ApplicationRunner applicationRunner2(){
+//        return new MyApplicationRunner2();
+//    }
 }
