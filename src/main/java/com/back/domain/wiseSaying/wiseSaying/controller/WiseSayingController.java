@@ -4,6 +4,7 @@ import com.back.domain.wiseSaying.wiseSaying.entity.WiseSaying;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -14,18 +15,24 @@ import java.util.stream.Collectors;
 @Controller
 public class WiseSayingController {
     private int lastId = 0;
-    private final List<WiseSaying> wiseSayings = new ArrayList<>();
+    private final List<WiseSaying> wiseSayings = new ArrayList<>() {{
+        add(new WiseSaying(++lastId, "명언 1", "작가 1"));
+        add(new WiseSaying(++lastId, "명언 2", "작가 2"));
+        add(new WiseSaying(++lastId, "명언 3", "작가 3"));
+        add(new WiseSaying(++lastId, "명언 4", "작가 4"));
+        add(new WiseSaying(++lastId, "명언 5", "작가 5"));
+    }};
 
     @GetMapping("/wiseSayings/write")
     @ResponseBody
     public String wirte(
-            String content,
-            String author
+            @RequestParam String content,
+            @RequestParam String author
     ) {
-        if (content == null || content.isBlank()) {
+        if (content.isBlank()) {
             throw new IllegalArgumentException("content cannot be null or blank");
         }
-        if (author == null || author.isBlank()) {
+        if (author.isBlank()) {
             throw new IllegalArgumentException("author cannot be null or blank");
         }
         int id = ++lastId;
@@ -62,6 +69,29 @@ public class WiseSayingController {
         wiseSayings.remove(wiseSaying);
 
         return "%d번 명언이 삭제됐습니다.".formatted(id);
+    }
+
+    @GetMapping("/wiseSayings/modify/{id}")
+    @ResponseBody
+    public String modify(
+            @PathVariable int id,
+            @RequestParam(defaultValue = "") String content,
+            @RequestParam(defaultValue = "") String author
+    ){
+        if(content.isBlank()){
+            throw new IllegalArgumentException("content cannot be blank");
+        }
+        if(author.isBlank()){
+            throw new IllegalArgumentException("author cannot be blank");
+        }
+        WiseSaying wiseSaying = findById(id)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("%d번 명언은 존재하지 않습니다".formatted(id))
+                );
+
+        wiseSaying.modify(content, author);
+
+        return "%d번 명언이 수정되었습니다.".formatted(id);
     }
 
     public Optional<WiseSaying> findById(int id){
