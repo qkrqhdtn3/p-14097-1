@@ -23,16 +23,6 @@ public class AppConfig {
     private AppConfig self;
 
     @Bean
-    HtmlRenderer htmlRenderer() {
-        return HtmlRenderer.builder().build();
-    }
-
-    @Bean
-    Parser parser() {
-        return Parser.builder().build();
-    }
-
-    @Bean
     int version(){
         return 55;
     }
