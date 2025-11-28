@@ -57,7 +57,19 @@ public class WiseSayingController {
                 + "</ul>";
     }
 
-    @GetMapping("/wiseSayings/delete/{id}")
+    @GetMapping("/wiseSayings/{id}")
+    @ResponseBody
+    public String detail(@PathVariable int id){
+        WiseSaying wiseSaying = findById(id).get();
+
+        return """
+                <h1>명언 : %s</h1>
+                <div>번호 : %d</div>
+                <div>작가 : %s</div>
+                """.formatted(wiseSaying.getContent(), wiseSaying.getId(), wiseSaying.getAuthor());
+    }
+
+    @GetMapping("/wiseSayings/{id}/delete")
     @ResponseBody
     public String delete(
             @PathVariable int id
@@ -71,7 +83,7 @@ public class WiseSayingController {
         return "%d번 명언이 삭제됐습니다.".formatted(id);
     }
 
-    @GetMapping("/wiseSayings/modify/{id}")
+    @GetMapping("/wiseSayings/{id}/modify")
     @ResponseBody
     public String modify(
             @PathVariable int id,
