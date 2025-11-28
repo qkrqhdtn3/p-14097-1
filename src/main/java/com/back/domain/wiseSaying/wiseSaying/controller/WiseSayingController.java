@@ -8,6 +8,7 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +70,7 @@ public class WiseSayingController {
 
     @GetMapping("/wiseSayings/{id}/delete")
     @ResponseBody
+    @Transactional
     public String delete(
             @PathVariable int id
     ){
